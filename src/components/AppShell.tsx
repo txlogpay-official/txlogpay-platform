@@ -22,7 +22,29 @@ export function AppShell({
   topbar?: React.ReactNode;
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const email = user?.email ?? "";
+  const displayName =
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.name as string | undefined) ||
+    email.split("@")[0] ||
+    "Usuário";
+  const initials = displayName
+    .split(/[\s.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? "")
+    .join("") || "U";
+
+  async function handleSignOut() {
+    await signOut();
+    navigate({ to: "/login", replace: true });
+  }
+
   return (
+    <AuthGate>
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-sidebar border-r border-sidebar-border px-5 py-6 fixed h-screen">
