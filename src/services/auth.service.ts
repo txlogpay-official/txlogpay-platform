@@ -1,5 +1,4 @@
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import type { Profile } from "@/types/profile.types";
 
 export const authService = {
@@ -11,13 +10,18 @@ export const authService = {
     return supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo:"https://beta.txlogpay.com/dashboard" },
+      options: {
+        emailRedirectTo: "https://beta.txlogpay.com/dashboard",
+      },
     });
   },
 
-  async signInWithGoogle(redirectPath = "/dashboard") {
-    return lovable.auth.signInWithOAuth("google", {
-      redirect_uri: "https://beta.txlogpay.com/dashboard" + redirectPath,
+  async signInWithGoogle() {
+    return supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "https://beta.txlogpay.com/dashboard",
+      },
     });
   },
 
@@ -37,10 +41,12 @@ export const authService = {
       .select("*")
       .eq("id", userId)
       .maybeSingle();
+
     if (error) {
       console.error("[auth.service] getProfile error", error);
       return null;
     }
+
     return data;
   },
-};
+}

@@ -51,7 +51,7 @@ function Signup() {
     const { error: err } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+      options: { emailRedirectTo: "https://beta.txlogpay.com/dashboard" },
     });
     setSubmitting(false);
 
@@ -65,7 +65,7 @@ function Signup() {
   async function handleGoogle() {
     setError(null);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/dashboard",
+      redirect_uri: "https://beta.txlogpay.com/dashboard",
     });
     if (result.error) {
       setError("Falha ao conectar com Google. Tente novamente.");
