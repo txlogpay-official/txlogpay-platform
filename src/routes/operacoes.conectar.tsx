@@ -683,8 +683,8 @@ function SidePanel({
   const titles = [
     "Estrutura financeira",
     "Documentação Siscomex",
-    "Liquidação internacional",
-    "Custódia digital",
+    "Liberação internacional",
+    "Garantia protegida",
     "Operação em monitoramento",
   ] as const;
 
