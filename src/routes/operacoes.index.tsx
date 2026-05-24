@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { motion } from "motion/react";
 import { Shield, Truck, ClipboardCheck, Building2, Plus, Inbox, Loader2 } from "lucide-react";
-import { useActiveOperations } from "@/hooks/use-operations";
+import { useAllOperations } from "@/hooks/use-operations";
 import { formatCurrency } from "@/lib/formatters";
 import type { DBOperation } from "@/services/operations.db";
 
