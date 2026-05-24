@@ -34,14 +34,13 @@ export const Route = createFileRoute("/operacoes/conectar")({
   component: NovaOperacao,
 });
 
-type StepIndex = 0 | 1 | 2 | 3 | 4;
+type StepIndex = 0 | 1 | 2 | 3;
 
 const STEPS = [
   { label: "Dados Comerciais",     icon: FileText },
   { label: "Documentação",         icon: FileCheck2 },
   { label: "Dados Bancários",      icon: Banknote },
-  { label: "Garantia Operacional", icon: ShieldCheck },
-  { label: "Operação Ativada",     icon: Sparkles },
+  { label: "Confirmação",          icon: ShieldCheck },
 ] as const;
 
 function NovaOperacao() {
