@@ -153,7 +153,7 @@ function KV({ k, v, mono }: { k: string; v: string; mono?: boolean }) {
 function TimelineItem({ date, title, desc, accent }: { date: string; title: string; desc: string; accent?: boolean }) {
   return (
     <li className="pl-5 relative">
-      <span className={"absolute -left-[6px] top-1.5 h-3 w-3 rounded-full ring-2 ring-background " + (accent ? "bg-secondary shadow-[0_0_10px_oklch(0.85_0.18_200/0.7)]" : "bg-muted-foreground")} />
+      <span className={"absolute -left-[6px] top-1.5 h-3 w-3 rounded-full ring-2 ring-background " + (accent ? "bg-secondary shadow-[0_0_8px_oklch(0.66_0.11_235/0.45)]" : "bg-muted-foreground")} />
       <div className="text-sm font-semibold">{title}</div>
       <div className="text-xs text-muted-foreground mt-0.5">{desc}</div>
       <div className="text-[10px] font-mono text-muted-foreground mt-0.5">{new Date(date).toLocaleString("pt-BR")}</div>

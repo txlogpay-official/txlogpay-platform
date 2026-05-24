@@ -254,7 +254,7 @@ function Stepper({ current }: { current: StepIndex }) {
                 <div className={
                   "h-10 w-10 rounded-full grid place-items-center border transition-all " +
                   (active
-                    ? "bg-secondary text-secondary-foreground border-secondary shadow-[0_0_24px_oklch(0.85_0.18_200/0.6)]"
+                    ? "bg-secondary text-secondary-foreground border-secondary shadow-[0_0_14px_oklch(0.66_0.11_235/0.35)]"
                     : done
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-surface-container border-border text-muted-foreground")
@@ -346,7 +346,7 @@ function Step1Commercial({ errors }: { errors: Record<string, string> }) {
                 className={
                   "text-left rounded-xl px-4 py-3 border transition-all " +
                   (active
-                    ? "border-secondary bg-secondary/10 ring-1 ring-secondary shadow-[0_0_20px_oklch(0.85_0.18_200/0.25)]"
+                    ? "border-secondary bg-secondary/10 ring-1 ring-secondary shadow-[0_0_12px_oklch(0.66_0.11_235/0.20)]"
                     : "border-border hover:border-secondary/50 hover:bg-surface-container")
                 }
               >
