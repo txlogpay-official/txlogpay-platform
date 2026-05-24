@@ -50,6 +50,15 @@ function NovaOperacao() {
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Every new wizard starts from a clean slate — no leftover data from
+  // the last operation, no hydrated store values, no prefilled selects.
+  useEffect(() => {
+    useOperationStore.getState().reset();
+    setStep(0);
+    setErrors({});
+  }, []);
+
+
   const tier = useUserStore((s) => s.tier);
   const setTier = useUserStore((s) => s.setTier);
 
