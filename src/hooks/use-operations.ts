@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { operationsDb, type DBOperation } from "@/services/operations.db";
+import { settlementsDb, type Settlement } from "@/services/settlements.db";
 import { useAuth } from "@/hooks/use-auth";
 
 const KEYS = {
