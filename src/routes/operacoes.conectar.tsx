@@ -672,51 +672,7 @@ function PixQR({ seed }: { seed: string }) {
   );
 }
 
-/* ----------------------------- Step 5: Activated ----------------------------- */
-
-function Step5Activated({ op, onGo }: { op: Operation; onGo: () => void }) {
-  const meta = OPERATION_STATUS_META[op.status];
-  return (
-    <div className="card-surface p-8 space-y-6">
-      <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center space-y-3">
-        <div className="mx-auto h-16 w-16 rounded-full grid place-items-center shadow-[0_0_40px_oklch(0.85_0.18_200/0.5)]" style={{ background: "var(--gradient-brand)" }}>
-          <Check className="h-8 w-8 text-primary-foreground" />
-        </div>
-        <h2 className="text-2xl font-bold">Operação ativada</h2>
-        <p className="text-sm text-muted-foreground">
-          <span className="font-mono text-foreground">{op.operation_code}</span> · ID{" "}
-          <span className="font-mono text-foreground">{op.id}</span>
-        </p>
-        <StatusBadge label={meta.label} tone={meta.tone} />
-      </motion.div>
-
-      <div className="grid sm:grid-cols-3 gap-3">
-        <Summary label="Incoterm" value={op.incoterm} />
-        <Summary label="Valor" value={formatCurrency(op.operation_value, op.currency)} highlight />
-        <Summary label="DUIMP" value={op.duimp || "—"} mono />
-      </div>
-
-      <div>
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-3">Timeline operacional</div>
-        <ol className="relative border-l border-border ml-3 space-y-4">
-          {op.events.map((e) => (
-            <li key={e.id} className="pl-5 relative">
-              <span className="absolute -left-[6px] top-1.5 h-3 w-3 rounded-full bg-secondary shadow-[0_0_10px_oklch(0.85_0.18_200/0.7)]" />
-              <div className="text-sm font-medium">{e.description}</div>
-              <div className="text-[10px] font-mono text-muted-foreground mt-0.5">
-                {new Date(e.timestamp).toLocaleString("pt-BR")} · {e.source}
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <button onClick={onGo} className="btn-primary w-full rounded-xl py-3.5 font-semibold flex items-center justify-center gap-2">
-        Ir para painel da operação <ArrowRight className="h-4 w-4" />
-      </button>
-    </div>
-  );
-}
+/* Step 5 removed — flow now redirects to /operacoes/$id/pagamento */
 
 /* ----------------------------- Side panel ----------------------------- */
 
