@@ -40,6 +40,13 @@ const ALLOWED_COLUMNS = [
   "activated_at", "created_at", "updated_at",
   // FX normalisation columns
   "operation_currency", "usd_conversion_rate", "usd_normalized_value", "fx_reference_date",
+  "fx_currency_used", "fx_rate_to_usd",
+  "invoice_number", "bl_awb", "duimp", "siscomex_reference",
+  "payment_proof_url",
+  "payment_receipt_url", "payment_receipt_name", "payment_submitted_at",
+  "activated_at", "created_at", "updated_at",
+  // FX normalisation columns
+  "operation_currency", "usd_conversion_rate", "usd_normalized_value", "fx_reference_date",
 ] as const;
 
 function pickAllowed<T extends Record<string, unknown>>(input: T): Partial<DBOperationInsert> {
