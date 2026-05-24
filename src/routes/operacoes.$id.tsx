@@ -382,7 +382,7 @@ type TimelineStage = {
   at?: string | null;
 };
 
-function OperationTimeline({ op }: { op: { status: string; created_at: string; updated_at: string; activated_at: string | null; payment_submitted_at: string | null } }) {
+function OperationTimeline({ op, settlement }: { op: { status: string; created_at: string; updated_at: string; activated_at: string | null; payment_submitted_at: string | null }; settlement: Settlement | null }) {
   const status = op.status;
   const order = [
     "PENDING_PAYMENT", "PAYMENT_UNDER_REVIEW",
@@ -391,16 +391,19 @@ function OperationTimeline({ op }: { op: { status: string; created_at: string; u
   ];
   const idx = order.indexOf(status);
   const reached = (minIdx: number) => idx >= minIdx;
+  const settledAt = settlement?.created_at ?? null;
+  const settledOk = !!settlement?.successful;
 
   const stages: TimelineStage[] = [
     { key: "registered", title: "Operação registrada", desc: "Processo operacional criado e vinculado ao Siscomex.", icon: FileText, at: op.created_at },
     { key: "pending", title: "Garantia aguardando depósito", desc: "Aguardando pagamento via PIX, TED ou SWIFT.", icon: Banknote, at: reached(0) ? op.created_at : null },
     { key: "received", title: "Comprovante recebido", desc: "Comprovante enviado pelo importador.", icon: FileCheck2, at: op.payment_submitted_at },
     { key: "validated", title: "Garantia validada", desc: "Compliance confirmou os fundos em custódia.", icon: Shield, at: op.activated_at },
-    { key: "monitoring", title: "Monitoramento operacional", desc: "Operação em acompanhamento até o evento de liberação.", icon: Activity, at: reached(2) ? op.activated_at : null },
-    { key: "scheduled", title: "Liquidação programada", desc: "Trigger de liberação confirmado — pagamento em fila.", icon: Truck, at: status === "PAYMENT_RELEASED" || status === "COMPLETED" ? op.updated_at : null },
-    { key: "released", title: "Pagamento liberado", desc: "Recursos liberados ao exportador no exterior.", icon: Landmark, at: status === "PAYMENT_RELEASED" || status === "COMPLETED" ? op.updated_at : null },
-    { key: "completed", title: "Operação concluída", desc: "Ciclo financeiro encerrado com sucesso.", icon: PackageCheck, at: status === "COMPLETED" ? op.updated_at : null },
+    { key: "settlement_started", title: "Settlement iniciado", desc: "Liquidação internacional disparada pelo motor de pagamentos.", icon: Radio, at: settledAt ?? (op.activated_at ? op.activated_at : null) },
+    { key: "settlement_confirmed", title: "Liquidação confirmada", desc: "Rede internacional confirmou a liquidação dos fundos.", icon: Landmark, at: settledOk ? settledAt : null },
+    { key: "ledger_confirmed", title: "Ledger confirmado", desc: "Registro imutável da liquidação no ledger de referência.", icon: Activity, at: settlement?.ledger ? settledAt : null },
+    { key: "monitoring", title: "Monitoramento operacional", desc: "Operação em acompanhamento até o evento de liberação.", icon: Truck, at: reached(2) ? op.activated_at : null },
+    { key: "settled", title: "Operação liquidada", desc: "Ciclo financeiro encerrado com sucesso.", icon: PackageCheck, at: status === "COMPLETED" ? op.updated_at : null },
   ];
 
   // Determine which stage is "active" (the current one in progress).
