@@ -107,3 +107,21 @@ export function formatNumber(value: number, fractionDigits = 2): string {
 export function formatPercent(rate: number): string {
   return `${(rate * 100).toFixed(2)}%`;
 }
+
+// ----- Multi-currency normalisation -----
+// Static FX reference rates (currency → USD). Refreshed at fx_reference_date.
+// In production these come from a treasury feed; here we use stable mid-market refs.
+export const USD_FX_RATES: Record<string, number> = {
+  USD: 1,
+  EUR: 1.08,
+  GBP: 1.27,
+  BRL: 0.18,
+  CNY: 0.14,
+};
+export const FX_REFERENCE_DATE = "2026-05-24";
+
+export function toUSD(value: number, currency: string = "USD"): number {
+  const rate = USD_FX_RATES[currency?.toUpperCase()] ?? 1;
+  return (Number(value) || 0) * rate;
+}
+
