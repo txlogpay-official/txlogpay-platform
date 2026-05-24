@@ -13,6 +13,7 @@ import {
 import { operationsDb, type DBOperation } from "@/services/operations.db";
 import { useAuth } from "@/hooks/use-auth";
 import { formatCurrency } from "@/lib/formatters";
+import { getProtectedAmount } from "@/lib/financial-calculations";
 import {
   STATUS_META, isActive, isPending, isUnderReview,
 } from "@/domain/operation-status";
@@ -59,6 +60,7 @@ function OperacaoDetail() {
   const hasReceipt = !!op.payment_receipt_url;
   const showUpload = isPending(op.status) || isUnderReview(op.status);
   const showHackathon = isUnderReview(op.status) || isPending(op.status);
+  const showPaymentActions = showUpload || showHackathon;
 
   async function handleSubmit() {
     if (!file || !user?.id) return;
@@ -124,7 +126,7 @@ function OperacaoDetail() {
       </motion.div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        <Info label="Valor protegido" value={formatCurrency(Number(op.protected_amount), op.currency)} />
+        <Info label="Valor protegido" value={formatCurrency(getProtectedAmount(op), op.currency)} />
         <Info label="Taxa TXLOGPAY" value={formatCurrency(Number(op.fee_amount), op.currency)} />
         <Info label="Total pago" value={formatCurrency(Number(op.total_amount), op.currency)} highlight />
         <Info label="Incoterm" value={op.incoterm || "—"} />
@@ -157,7 +159,7 @@ function OperacaoDetail() {
       <FxReferenceCard op={op} />
 
       {/* ---------- Operational workspace: timeline (left) + upload (right) ---------- */}
-      <div className="grid lg:grid-cols-2 gap-5 mt-5 items-start">
+      <div className={(showPaymentActions ? "grid lg:grid-cols-2" : "grid grid-cols-1") + " gap-5 mt-5 items-start"}>
         {/* LEFT — Timeline */}
         <div className="card-surface p-6 order-2 lg:order-1">
           <h3 className="text-base font-semibold mb-5 flex items-center gap-2">
@@ -167,7 +169,7 @@ function OperacaoDetail() {
         </div>
 
         {/* RIGHT — receipt + hackathon validation */}
-        <div className="space-y-5 order-1 lg:order-2">
+        {showPaymentActions && <div className="space-y-5 order-1 lg:order-2">
 
           {showUpload ? (
             <motion.div
@@ -292,30 +294,8 @@ function OperacaoDetail() {
                 </div>
               )}
             </motion.div>
-          ) : hasReceipt ? (
-            /* Collapsed receipt summary once operation is in monitoring/release */
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="card-surface p-5 flex items-center gap-3"
-            >
-              <FileCheck2 className="h-5 w-5 text-success shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Comprovante validado</div>
-                <div className="text-sm font-semibold truncate mt-0.5">{op.payment_receipt_name || "Comprovante recebido"}</div>
-                <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
-                  {op.payment_submitted_at ? new Date(op.payment_submitted_at).toLocaleString("pt-BR") : "—"}
-                </div>
-              </div>
-              {signedUrl && (
-                <a href={signedUrl} target="_blank" rel="noreferrer"
-                  className="text-xs text-secondary hover:underline inline-flex items-center gap-1">
-                  <ExternalLink className="h-3.5 w-3.5" /> Ver
-                </a>
-              )}
-            </motion.div>
           ) : null}
-        </div>
+        </div>}
       </div>
 
 
