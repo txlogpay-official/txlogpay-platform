@@ -128,7 +128,7 @@ export const operationsDb = {
     const ext = file.name.split(".").pop() || "bin";
     const path = `${userId}/${operationId}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage
-      .from("payment-proofs")
+      .from("payment-receipts")
       .upload(path, file, { upsert: true, contentType: file.type });
     if (error) throw error;
     return path;
@@ -141,7 +141,7 @@ export const operationsDb = {
 
   async getReceiptUrl(path: string): Promise<string | null> {
     const { data, error } = await supabase.storage
-      .from("payment-proofs")
+      .from("payment-receipts")
       .createSignedUrl(path, 60 * 60);
     if (error) return null;
     return data?.signedUrl ?? null;
