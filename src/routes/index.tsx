@@ -12,7 +12,6 @@ import {
   Banknote,
   FileSearch,
   Workflow,
-  Cpu,
   CheckCircle2,
   XCircle,
   TrendingDown,
@@ -29,17 +28,17 @@ import { Input } from "@/components/ui/input";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TXLOGPAY — Escrow Logístico e Liquidação Internacional via Blockchain" },
+      { title: "TXLOGPAY — Pagamentos internacionais com garantia operacional" },
       {
         name: "description",
         content:
-          "Plataforma enterprise de trade finance. Reduza risco de contraparte, elimine custos de carta de crédito e libere pagamentos internacionais com escrow logístico on-chain.",
+          "Plataforma de pagamentos internacionais para importadores. Proteja o valor da operação, acompanhe a logística e libere o pagamento apenas após a confirmação operacional.",
       },
-      { property: "og:title", content: "TXLOGPAY — Trade Finance Infrastructure" },
+      { property: "og:title", content: "TXLOGPAY — Infraestrutura financeira para comércio exterior" },
       {
         property: "og:description",
         content:
-          "Escrow logístico digital, liquidação internacional via Stellar e trilha auditável para operações de comércio exterior.",
+          "Centralize pagamentos internacionais com acompanhamento operacional, liberação condicionada e trilha financeira auditável.",
       },
     ],
   }),
@@ -49,28 +48,28 @@ export const Route = createFileRoute("/")({
 const COMPARISON = [
   { label: "Custo médio da operação", legacy: "1,5% – 3,0% + tarifas", tx: "1,00% – 1,50% all-in" },
   { label: "Tempo de emissão / setup", legacy: "5 – 15 dias úteis", tx: "Minutos (self-service)" },
-  { label: "Liberação ao exportador", legacy: "Documental, manual", tx: "Automática on-chain" },
-  { label: "Risco de contraparte", legacy: "Mitigado por banco emissor", tx: "Mitigado por escrow digital" },
-  { label: "Trilha de auditoria", legacy: "Documentos físicos e SWIFT", tx: "Imutável em blockchain" },
-  { label: "Capital de giro", legacy: "Bloqueado em colateral", tx: "Liberado por milestone" },
+  { label: "Liberação ao exportador", legacy: "Documental, manual", tx: "Automática por evento" },
+  { label: "Risco de contraparte", legacy: "Mitigado por banco emissor", tx: "Mitigado por garantia operacional" },
+  { label: "Trilha de auditoria", legacy: "Documentos físicos e SWIFT", tx: "Histórico financeiro centralizado" },
+  { label: "Capital de giro", legacy: "Bloqueado em colateral", tx: "Liberado por etapa logística" },
 ];
 
 const FLOW = [
-  { icon: FileSearch, title: "Operação registrada", desc: "Importador conecta a operação Siscomex e define beneficiário internacional." },
-  { icon: Lock, title: "Garantia em custódia", desc: "Valor é depositado em escrow digital tokenizado na rede Stellar." },
-  { icon: Activity, title: "Monitoramento logístico", desc: "Eventos aduaneiros e de transporte são validados em tempo real." },
-  { icon: Workflow, title: "Milestones verificadas", desc: "Cada etapa logística destrava uma fração do pagamento programado." },
-  { icon: Banknote, title: "Settlement automático", desc: "Liberação on-chain ao exportador após confirmação final da carga." },
+  { icon: FileSearch, title: "Operação registrada", desc: "O importador conecta a operação e define o beneficiário internacional." },
+  { icon: Lock, title: "Pagamento protegido", desc: "O valor é reservado e fica indisponível até a confirmação da operação." },
+  { icon: Activity, title: "Acompanhamento logístico", desc: "Eventos aduaneiros e de transporte são monitorados em tempo real." },
+  { icon: Workflow, title: "Validação operacional", desc: "Cada etapa logística confirmada libera uma fração do pagamento." },
+  { icon: Banknote, title: "Liberação ao exportador", desc: "Pagamento liberado automaticamente após a confirmação final da carga." },
 ];
 
 const BENEFITS = [
-  { icon: ShieldCheck, title: "Redução de risco de contraparte", desc: "Garantia financeira vinculada a eventos reais de movimentação da carga." },
-  { icon: Globe2, title: "Liquidação internacional rápida", desc: "Settlement cross-border em segundos via rede Stellar e anchors regulados." },
-  { icon: Scale, title: "Compliance auditável", desc: "Trilha imutável aderente a SISBACEN, AML e políticas internas de procurement." },
+  { icon: ShieldCheck, title: "Redução de risco de fraude", desc: "Pagamento vinculado à confirmação real de movimentação da carga." },
+  { icon: Globe2, title: "Liquidação internacional rápida", desc: "Liberação cross-border em minutos, sem espera por intermediários." },
+  { icon: Scale, title: "Compliance auditável", desc: "Trilha financeira aderente a SISBACEN, AML e políticas internas de procurement." },
   { icon: Network, title: "Integração logística", desc: "APIs com ERPs, TMS, despachantes e provedores de tracking marítimo." },
-  { icon: Layers, title: "Custódia digital regulada", desc: "Fundos segregados em estrutura de custódia auditada e segregação patrimonial." },
-  { icon: Cpu, title: "Smart settlement", desc: "Regras programáveis de liberação por milestone, parcial ou condicional." },
-  { icon: FileSearch, title: "Histórico imutável", desc: "Cada evento registrado on-chain para auditoria, disputa e governança." },
+  { icon: Layers, title: "Reserva operacional segregada", desc: "Fundos segregados em estrutura financeira regulada e auditada." },
+  { icon: Workflow, title: "Liberação programada", desc: "Regras de liberação por evento — parcial, total ou condicional." },
+  { icon: FileSearch, title: "Histórico centralizado", desc: "Cada evento registrado para auditoria, disputa e governança." },
   { icon: TrendingDown, title: "Economia vs carta de crédito", desc: "Até 60% de redução de custo financeiro frente a LC tradicional." },
 ];
 
@@ -79,7 +78,7 @@ const PLANS = [
     name: "Starter",
     volume: "Até US$ 500k / mês",
     rate: "1,50%",
-    features: ["Self-service", "Até 3 usuários", "Onboarding automático", "4 milestones logísticas", "Suporte por e-mail"],
+    features: ["Self-service", "Até 3 usuários", "Onboarding automático", "4 etapas operacionais", "Suporte por e-mail"],
     cta: "Começar agora",
     href: "/signup",
     highlight: false,
@@ -88,7 +87,7 @@ const PLANS = [
     name: "Growth",
     volume: "US$ 500k – 5M / mês",
     rate: "1,25%",
-    features: ["Até 10 usuários", "SLA 4h", "Integrações ERP / TMS", "Milestones ilimitadas", "CSM compartilhado"],
+    features: ["Até 10 usuários", "SLA 4h", "Integrações ERP / TMS", "Etapas ilimitadas", "CSM compartilhado"],
     cta: "Falar com especialista",
     href: "/contato",
     highlight: true,
@@ -105,9 +104,9 @@ const PLANS = [
 ];
 
 const MODULES = [
-  { name: "Escrow multietapa", price: "+0,10%", desc: "Liberação fracionada por evento logístico." },
-  { name: "Webhooks em tempo real", price: "+0,05%", desc: "Push de eventos para sistemas internos." },
-  { name: "Disputa mediada on-chain", price: "+0,15%", desc: "Arbitragem registrada em ledger imutável." },
+  { name: "Liberação multietapa", price: "+0,10%", desc: "Pagamento fracionado por evento logístico confirmado." },
+  { name: "Webhooks em tempo real", price: "+0,05%", desc: "Notificações de eventos para sistemas internos." },
+  { name: "Mediação de disputas", price: "+0,15%", desc: "Arbitragem operacional com histórico completo da operação." },
   { name: "Compliance SISBACEN / AML", price: "+0,08%", desc: "Reporting regulatório e screening contínuo." },
 ];
 
@@ -128,22 +127,22 @@ const BUYERS = [
     icon: Building2,
     tag: "Enterprise / Procurement",
     title: "Procurement e governança",
-    points: ["Trilha auditável blockchain", "Controles de compliance", "Governança financeira", "Auditoria imutável"],
+    points: ["Trilha financeira auditável", "Controles de compliance", "Governança operacional", "Histórico verificável"],
   },
 ];
 
 const COMPLIANCE = [
-  { icon: FileSearch, title: "Trilha imutável", desc: "Cada operação registrada com hash criptográfico verificável." },
+  { icon: FileSearch, title: "Rastreabilidade operacional", desc: "Cada operação registrada com identificador verificável e histórico completo." },
   { icon: ShieldCheck, title: "AML & KYC contínuos", desc: "Screening em todas as contrapartes e beneficiários internacionais." },
   { icon: Scale, title: "SISBACEN ready", desc: "Estrutura preparada para reporting cambial e regulatório." },
-  { icon: Activity, title: "Smart audit trail", desc: "Eventos logísticos, financeiros e operacionais correlacionados." },
+  { icon: Activity, title: "Auditoria financeira", desc: "Eventos logísticos, financeiros e operacionais correlacionados." },
 ];
 
 function Landing() {
   const [volume, setVolume] = useState<number>(2_000_000);
   const savings = useMemo(() => {
-    const lcCost = volume * 0.025; // 2.5% LC tradicional
-    const txCost = volume * 0.0125; // 1.25% TXLOGPAY Growth
+    const lcCost = volume * 0.025;
+    const txCost = volume * 0.0125;
     const saved = lcCost - txCost;
     const annual = saved * 12;
     return { monthly: saved, annual, lcCost, txCost };
@@ -157,7 +156,7 @@ function Landing() {
           <Link to="/" className="flex items-center gap-3">
             <Logo className="h-8" />
             <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.2em] hidden sm:inline">
-              Trade Finance Infrastructure
+              Pagamentos Internacionais
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
@@ -186,15 +185,15 @@ function Landing() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7"
           >
-            <span className="chip chip-info">Stellar · Escrow Digital · Trade Finance</span>
+            <span className="chip chip-info">Trade Finance · Importação · Pagamentos</span>
             <h1 className="mt-6 text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight">
               Pagamentos internacionais com{" "}
-              <span className="text-gradient">escrow logístico</span> via blockchain.
+              <span className="text-gradient">garantia operacional</span> integrada.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              Reduza risco de contraparte, elimine custos de carta de crédito e libere pagamentos
-              internacionais apenas após confirmação logística — com trilha imutável, compliance auditável
-              e settlement programável.
+              Centralize pagamentos internacionais com acompanhamento operacional e liberação
+              condicionada da operação. Mais segurança, menos custo e previsibilidade total
+              para importações.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/signup" className="btn-primary rounded-md px-6 py-3 font-semibold inline-flex items-center gap-2">
@@ -207,7 +206,7 @@ function Landing() {
             <div className="mt-10 grid grid-cols-3 gap-6 max-w-xl">
               {[
                 { k: "60%", v: "Economia vs LC" },
-                { k: "<10s", v: "Settlement on-chain" },
+                { k: "<10s", v: "Liberação ao exportador" },
                 { k: "100%", v: "Auditável" },
               ].map((s) => (
                 <div key={s.v}>
@@ -234,15 +233,15 @@ function Landing() {
                 <span className="font-mono text-[10px] tracking-widest text-muted-foreground">TX-2026-0481</span>
               </div>
               <div className="mt-5">
-                <div className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Valor em garantia</div>
+                <div className="text-xs text-muted-foreground font-mono uppercase tracking-widest">Pagamento protegido</div>
                 <div className="text-3xl font-bold mt-1">USD 1.240.500,00</div>
-                <div className="mt-1 text-xs text-muted-foreground">Beneficiário: Shenzhen Trade Co. · Stellar Anchor</div>
+                <div className="mt-1 text-xs text-muted-foreground">Beneficiário: Shenzhen Trade Co.</div>
               </div>
 
               <div className="mt-6 space-y-3">
                 {[
                   { t: "Operação criada", s: "Siscomex sincronizado", c: "chip-success" },
-                  { t: "Escrow tokenizado", s: "Hash 0x9c…f21a", c: "chip-info" },
+                  { t: "Pagamento protegido", s: "Reserva confirmada", c: "chip-info" },
                   { t: "Embarque confirmado", s: "BL MSC-RX9821", c: "chip-success" },
                   { t: "Desembaraço pendente", s: "Aguardando canal", c: "chip-warning" },
                 ].map((r, i) => (
@@ -258,9 +257,9 @@ function Landing() {
 
               <div className="mt-5 pt-5 border-t border-border flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <Cpu className="h-3.5 w-3.5" /> Smart contract
+                  <Workflow className="h-3.5 w-3.5" /> Liberação programada
                 </div>
-                <span className="font-mono text-secondary">3/5 milestones liberadas</span>
+                <span className="font-mono text-secondary">3/5 etapas confirmadas</span>
               </div>
             </div>
           </motion.div>
@@ -271,10 +270,10 @@ function Landing() {
       <section className="border-y border-border bg-surface-container-low/40">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-wrap items-center justify-between gap-6">
           <span className="text-xs uppercase tracking-widest font-mono text-muted-foreground">
-            Infraestrutura compatível com
+            Compatível com
           </span>
           <div className="flex flex-wrap gap-6 opacity-70">
-            {["STELLAR", "SISCOMEX", "SWIFT GPI", "MAERSK", "MSC", "SAP", "ORACLE"].map((n) => (
+            {["SISCOMEX", "SWIFT GPI", "MAERSK", "MSC", "SAP", "ORACLE", "TOTVS"].map((n) => (
               <span key={n} className="font-mono text-xs tracking-[0.2em] text-muted-foreground">{n}</span>
             ))}
           </div>
@@ -322,7 +321,7 @@ function Landing() {
               <div className="flex items-center gap-2 text-secondary font-mono text-xs uppercase tracking-widest">
                 <CheckCircle2 className="h-4 w-4" /> TXLOGPAY
               </div>
-              <h3 className="mt-3 text-xl font-semibold">Escrow logístico on-chain</h3>
+              <h3 className="mt-3 text-xl font-semibold">Pagamento protegido por evento operacional</h3>
               <ul className="mt-6 space-y-3 text-sm">
                 {COMPARISON.map((c) => (
                   <li key={c.label} className="flex justify-between gap-4 border-b border-border pb-2 last:border-0">
@@ -344,7 +343,7 @@ function Landing() {
             Cinco etapas, uma trilha auditável.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            O capital é programado para liberação automática conforme os eventos logísticos
+            O pagamento é programado para liberação automática conforme os eventos logísticos
             são confirmados pela infraestrutura aduaneira e portuária.
           </p>
         </div>
@@ -554,7 +553,7 @@ function Landing() {
               </div>
               <div className="rounded-xl glass p-5">
                 <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-                  Tempo de liquidação
+                  Tempo de liberação
                 </div>
                 <div className="mt-1 text-xl font-semibold flex items-center gap-2">
                   <Clock className="h-4 w-4 text-secondary" /> ~10s
@@ -574,10 +573,10 @@ function Landing() {
         <div className="max-w-3xl">
           <span className="chip chip-info">Compliance & Governança</span>
           <h2 className="mt-5 text-3xl md:text-4xl font-bold tracking-tight">
-            Auditoria imutável e governança operacional por design.
+            Rastreabilidade operacional e governança financeira por design.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Cada evento financeiro e logístico é registrado em ledger criptográfico, com integração
+            Cada evento financeiro e logístico é registrado em histórico verificável, com integração
             nativa a fluxos regulatórios brasileiros e internacionais.
           </p>
         </div>
@@ -604,7 +603,7 @@ function Landing() {
           />
           <div className="relative">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-3xl mx-auto">
-              Pronto para substituir sua carta de crédito por infraestrutura programável?
+              Pronto para substituir sua carta de crédito por pagamento protegido?
             </h2>
             <p className="mt-5 text-muted-foreground max-w-2xl mx-auto">
               Fale com nosso time de trade finance para uma análise de redução de custo e desenho
@@ -628,8 +627,8 @@ function Landing() {
           <div>
             <Logo className="h-7" />
             <p className="text-muted-foreground mt-3 text-xs leading-relaxed">
-              Infraestrutura financeira programável para comércio exterior moderno.
-              Escrow logístico, settlement on-chain e compliance auditável.
+              Infraestrutura financeira moderna para comércio exterior.
+              Pagamento protegido, liberação programada e compliance auditável.
             </p>
           </div>
           <div>
