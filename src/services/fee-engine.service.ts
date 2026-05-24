@@ -38,8 +38,7 @@ export const feeEngine = {
    *
    * total_funding       = gross + operational + custody + settlement
    *                       (importer deposits this as garantia)
-   * net_exporter_amount = gross (importer's payable, paid 100% to exporter
-   *                       on customs release; fees are TXLOGPAY's margin)
+   * net_exporter_amount = gross - total fees (protected liquid value)
    */
   calculateBreakdown(grossAmount: number, tier: UserTier): EscrowBreakdown {
     const fees = TIER_FEES[tier];
@@ -47,6 +46,7 @@ export const feeEngine = {
     const fee_amount      = round2(gross * fees.operational);
     const custody_fee     = round2(gross * fees.custody);
     const settlement_fee  = round2(gross * fees.settlement);
+    const total_fees      = round2(fee_amount + custody_fee + settlement_fee);
     const total_funding   = round2(gross + fee_amount + custody_fee + settlement_fee);
     return {
       gross_amount: round2(gross),
@@ -54,7 +54,7 @@ export const feeEngine = {
       custody_fee,
       settlement_fee,
       total_funding,
-      net_exporter_amount: round2(gross),
+      net_exporter_amount: round2(Math.max(0, gross - total_fees)),
     };
   },
 
