@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import {
-  LayoutGrid, Globe, Wallet, Scale, Settings, Search, Bell, HelpCircle, LogOut, Plus,
+  LayoutGrid, Globe, Wallet, Settings, Search, Bell, HelpCircle, LogOut, Plus,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { AuthGate } from "./AuthGate";
@@ -11,7 +11,6 @@ const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/operacoes", label: "Operações", icon: Globe },
   { to: "/pagamentos", label: "Pagamentos", icon: Wallet },
-  { to: "/alfandega", label: "Alfândega", icon: Scale },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
