@@ -69,7 +69,7 @@ export function AppShell({
                 className={
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all " +
                   (active
-                    ? "btn-primary shadow-[0_0_24px_oklch(0.78_0.16_230/0.35)]"
+                    ? "bg-sidebar-accent text-foreground border border-border"
                     : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent")
                 }
               >
@@ -141,9 +141,9 @@ export function AppShell({
         </header>
         <main className="flex-1 p-6 lg:p-10">{children}</main>
         <footer className="px-6 lg:px-10 py-6 text-xs text-muted-foreground border-t border-border flex flex-wrap gap-4 justify-between">
-          <span>© 2024 TXLOGPAY Global Trade Systems · Protected by Cargo-Linked Digital Guarantee.</span>
+          <span>© 2026 TXLOGPAY · Infraestrutura de pagamentos internacionais com garantia operacional.</span>
           <div className="flex gap-4">
-            <span>Security</span><span>Privacy</span><span>Terms</span>
+            <span>Segurança</span><span>Privacidade</span><span>Termos</span>
           </div>
         </footer>
       </div>

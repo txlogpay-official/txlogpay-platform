@@ -11,11 +11,17 @@ export interface FeeStructure {
   settlement:  number; // applied on gross_amount
 }
 
+// Volume-based institutional pricing.
+// STANDARD = Starter (up to USD 500k/mo)  → 1.50%
+// ENTERPRISE = Growth (USD 500k–5M/mo)    → 1.25%
+// VIP = Enterprise (above USD 5M/mo)      → 1.00%
+// ANCHOR_PARTNER = Strategic              → 0.80%
+// Single operational fee — custody and release are bundled.
 export const TIER_FEES: Record<UserTier, FeeStructure> = {
-  STANDARD:       { operational: 0.0080, custody: 0.0010, settlement: 0.0005 },
-  ENTERPRISE:     { operational: 0.0045, custody: 0.0008, settlement: 0.0004 },
-  VIP:            { operational: 0.0030, custody: 0.0006, settlement: 0.0003 },
-  ANCHOR_PARTNER: { operational: 0.0020, custody: 0.0004, settlement: 0.0002 },
+  STANDARD:       { operational: 0.0150, custody: 0, settlement: 0 },
+  ENTERPRISE:     { operational: 0.0125, custody: 0, settlement: 0 },
+  VIP:            { operational: 0.0100, custody: 0, settlement: 0 },
+  ANCHOR_PARTNER: { operational: 0.0080, custody: 0, settlement: 0 },
 };
 
 function round2(n: number): number {

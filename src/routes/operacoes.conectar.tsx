@@ -254,7 +254,7 @@ function Stepper({ current }: { current: StepIndex }) {
                 <div className={
                   "h-10 w-10 rounded-full grid place-items-center border transition-all " +
                   (active
-                    ? "bg-secondary text-secondary-foreground border-secondary shadow-[0_0_24px_oklch(0.85_0.18_200/0.6)]"
+                    ? "bg-secondary text-secondary-foreground border-secondary shadow-[0_0_14px_oklch(0.66_0.11_235/0.35)]"
                     : done
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-surface-container border-border text-muted-foreground")
@@ -346,7 +346,7 @@ function Step1Commercial({ errors }: { errors: Record<string, string> }) {
                 className={
                   "text-left rounded-xl px-4 py-3 border transition-all " +
                   (active
-                    ? "border-secondary bg-secondary/10 ring-1 ring-secondary shadow-[0_0_20px_oklch(0.85_0.18_200/0.25)]"
+                    ? "border-secondary bg-secondary/10 ring-1 ring-secondary shadow-[0_0_12px_oklch(0.66_0.11_235/0.20)]"
                     : "border-border hover:border-secondary/50 hover:bg-surface-container")
                 }
               >
@@ -636,10 +636,10 @@ function Step4Guarantee() {
           </div>
           <div className="rounded-xl glass p-5 space-y-3 text-sm">
             <div className="font-semibold flex items-center gap-2">
-              <Lock className="h-4 w-4 text-secondary" /> Garantia em custódia digital
+              <Lock className="h-4 w-4 text-secondary" /> Garantia operacional protegida
             </div>
             <p className="text-xs text-muted-foreground">
-              Os fundos são reservados no Stellar Anchor (mock) e liberados via Smart Contract Settlement quando o trigger ocorrer.
+              Os fundos ficam retidos em conta segregada e são liberados ao exportador na confirmação do evento operacional acordado.
             </p>
           </div>
         </div>
@@ -683,8 +683,8 @@ function SidePanel({
   const titles = [
     "Estrutura financeira",
     "Documentação Siscomex",
-    "Liquidação internacional",
-    "Custódia digital",
+    "Liberação internacional",
+    "Garantia protegida",
     "Operação em monitoramento",
   ] as const;
 
@@ -700,9 +700,7 @@ function SidePanel({
 
         <div className="mt-4 space-y-2 text-sm p-3 rounded-xl glass">
           <BreakdownRow label="Valor protegido" value={formatCurrency(breakdown.gross_amount, currency)} />
-          <BreakdownRow label="Fee operacional" value={formatCurrency(breakdown.fee_amount, currency)} />
-          <BreakdownRow label="Taxa de custódia" value={formatCurrency(breakdown.custody_fee, currency)} />
-          <BreakdownRow label="Taxa de liquidação" value={formatCurrency(breakdown.settlement_fee, currency)} />
+          <BreakdownRow label="Taxa operacional TXLOGPAY" value={formatCurrency(breakdown.fee_amount, currency)} />
           <div className="h-px bg-border my-1" />
           <BreakdownRow
             label="Total da garantia"
@@ -721,9 +719,9 @@ function SidePanel({
         </h3>
         <div className="space-y-2 text-xs">
           <IntegrationRow label="Siscomex API" status="standby" />
-          <IntegrationRow label="Stellar Anchor" status="standby" />
-          <IntegrationRow label="Smart Contract Settlement" status="standby" />
-          <IntegrationRow label="Supabase Cloud" status="standby" />
+          <IntegrationRow label="Conta segregada — banco parceiro" status="standby" />
+          <IntegrationRow label="Liberação programada" status="standby" />
+          <IntegrationRow label="Auditoria operacional" status="standby" />
         </div>
       </div>
 

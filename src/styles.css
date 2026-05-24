@@ -11,74 +11,74 @@
 :root {
   --radius: 0.75rem;
 
-  /* TXLOGPAY Premium Dark - all values in oklch */
-  --background: oklch(0.18 0.09 270);
-  --foreground: oklch(0.95 0.04 270);
+  /* TXLOGPAY — Institutional Petroleum (calm fintech, Stripe / Mercury feel) */
+  --background: oklch(0.17 0.04 250);
+  --foreground: oklch(0.96 0.01 250);
 
-  --surface-dim: oklch(0.16 0.09 270);
-  --surface-bright: oklch(0.32 0.08 270);
-  --surface-container-lowest: oklch(0.14 0.10 270);
-  --surface-container-low: oklch(0.20 0.09 270);
-  --surface-container: oklch(0.22 0.08 270);
-  --surface-container-high: oklch(0.26 0.08 270);
-  --surface-container-highest: oklch(0.30 0.08 270);
+  --surface-dim:                  oklch(0.16 0.04 250);
+  --surface-bright:               oklch(0.30 0.035 245);
+  --surface-container-lowest:     oklch(0.14 0.04 250);
+  --surface-container-low:        oklch(0.19 0.035 248);
+  --surface-container:            oklch(0.22 0.030 246);
+  --surface-container-high:       oklch(0.26 0.028 244);
+  --surface-container-highest:    oklch(0.30 0.025 242);
 
-  --card: oklch(0.22 0.08 270);
-  --card-foreground: oklch(0.95 0.04 270);
-  --popover: oklch(0.22 0.08 270);
-  --popover-foreground: oklch(0.95 0.04 270);
+  --card: oklch(0.22 0.030 246);
+  --card-foreground: oklch(0.96 0.01 250);
+  --popover: oklch(0.22 0.030 246);
+  --popover-foreground: oklch(0.96 0.01 250);
 
-  /* Electric blue */
-  --primary: oklch(0.65 0.20 265);
+  /* Corporate petroleum blue */
+  --primary:           oklch(0.58 0.13 245);
   --primary-foreground: oklch(0.99 0 0);
-  --primary-glow: oklch(0.78 0.16 230);
+  --primary-glow:      oklch(0.66 0.11 235);
 
-  /* Cyan */
-  --secondary: oklch(0.85 0.18 200);
-  --secondary-foreground: oklch(0.18 0.09 270);
+  /* Soft teal accent — no neon */
+  --secondary:           oklch(0.74 0.10 220);
+  --secondary-foreground: oklch(0.17 0.04 250);
 
-  --muted: oklch(0.26 0.08 270);
-  --muted-foreground: oklch(0.72 0.04 270);
+  --muted: oklch(0.26 0.03 248);
+  --muted-foreground: oklch(0.70 0.02 250);
 
-  /* Purple/pink accent for cargo protection */
-  --accent: oklch(0.70 0.24 320);
-  --accent-foreground: oklch(0.99 0 0);
+  /* Restrained executive amber for highlights */
+  --accent:            oklch(0.74 0.12 80);
+  --accent-foreground: oklch(0.17 0.04 250);
 
-  --destructive: oklch(0.70 0.20 25);
+  --destructive: oklch(0.65 0.18 25);
   --destructive-foreground: oklch(0.99 0 0);
-  --success: oklch(0.78 0.18 180);
-  --warning: oklch(0.78 0.18 60);
+  --success: oklch(0.70 0.13 165);
+  --warning: oklch(0.78 0.13 75);
 
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.10);
-  --ring: oklch(0.78 0.16 230);
+  --border: oklch(1 0 0 / 0.07);
+  --input:  oklch(1 0 0 / 0.09);
+  --ring:   oklch(0.66 0.11 235);
 
-  --chart-1: oklch(0.78 0.16 230);
-  --chart-2: oklch(0.85 0.18 200);
-  --chart-3: oklch(0.70 0.24 320);
-  --chart-4: oklch(0.78 0.18 60);
-  --chart-5: oklch(0.65 0.20 265);
+  --chart-1: oklch(0.66 0.11 235);
+  --chart-2: oklch(0.74 0.10 220);
+  --chart-3: oklch(0.74 0.12 80);
+  --chart-4: oklch(0.70 0.13 165);
+  --chart-5: oklch(0.58 0.13 245);
 
-  --sidebar: oklch(0.16 0.09 270);
-  --sidebar-foreground: oklch(0.95 0.04 270);
-  --sidebar-primary: oklch(0.65 0.20 265);
+  --sidebar: oklch(0.15 0.04 250);
+  --sidebar-foreground: oklch(0.96 0.01 250);
+  --sidebar-primary: oklch(0.58 0.13 245);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.22 0.08 270);
-  --sidebar-accent-foreground: oklch(0.95 0.04 270);
-  --sidebar-border: oklch(1 0 0 / 0.06);
-  --sidebar-ring: oklch(0.78 0.16 230);
+  --sidebar-accent: oklch(0.22 0.030 246);
+  --sidebar-accent-foreground: oklch(0.96 0.01 250);
+  --sidebar-border: oklch(1 0 0 / 0.05);
+  --sidebar-ring: oklch(0.66 0.11 235);
 
-  /* Gradients */
-  --gradient-brand: linear-gradient(135deg, oklch(0.65 0.20 265), oklch(0.85 0.18 200));
-  --gradient-brand-soft: linear-gradient(135deg, oklch(0.65 0.20 265 / 0.18), oklch(0.85 0.18 200 / 0.18));
-  --gradient-accent: linear-gradient(135deg, oklch(0.65 0.20 265), oklch(0.70 0.24 320));
-  --gradient-text: linear-gradient(135deg, oklch(0.78 0.16 230), oklch(0.85 0.18 200));
-  --gradient-bg: radial-gradient(ellipse at top, oklch(0.24 0.10 265) 0%, oklch(0.14 0.10 270) 60%);
+  /* Gradients — subtle, corporate */
+  --gradient-brand:      linear-gradient(135deg, oklch(0.58 0.13 245), oklch(0.66 0.11 235));
+  --gradient-brand-soft: linear-gradient(135deg, oklch(0.58 0.13 245 / 0.14), oklch(0.74 0.10 220 / 0.10));
+  --gradient-accent:     linear-gradient(135deg, oklch(0.58 0.13 245), oklch(0.74 0.10 220));
+  --gradient-text:       linear-gradient(135deg, oklch(0.82 0.06 235), oklch(0.92 0.04 220));
+  --gradient-bg:         radial-gradient(ellipse at top, oklch(0.20 0.05 250) 0%, oklch(0.14 0.04 250) 65%);
 
-  /* Shadows / glows */
-  --shadow-glow-primary: 0 0 40px oklch(0.78 0.16 230 / 0.35);
-  --shadow-glow-accent: 0 0 40px oklch(0.70 0.24 320 / 0.35);
-  --shadow-card: 0 8px 32px oklch(0 0 0 / 0.4);
+  /* Shadows / glows — restrained */
+  --shadow-glow-primary: 0 0 24px oklch(0.66 0.11 235 / 0.18);
+  --shadow-glow-accent:  0 0 22px oklch(0.74 0.12 80 / 0.18);
+  --shadow-card:         0 6px 20px oklch(0 0 0 / 0.32);
 }
 
 .dark { color-scheme: dark; }
@@ -198,25 +198,23 @@
     border: 1px solid var(--border);
   }
   .chip-cargo {
-    background: color-mix(in oklab, var(--accent) 15%, transparent);
-    color: oklch(0.85 0.14 320);
-    border-color: color-mix(in oklab, var(--accent) 40%, transparent);
-    box-shadow: 0 0 16px color-mix(in oklab, var(--accent) 25%, transparent);
-    animation: pulseGlow 2.5s ease-in-out infinite;
+    background: color-mix(in oklab, var(--accent) 14%, transparent);
+    color: oklch(0.88 0.10 80);
+    border-color: color-mix(in oklab, var(--accent) 35%, transparent);
   }
   .chip-success {
     background: color-mix(in oklab, var(--success) 12%, transparent);
-    color: oklch(0.88 0.14 180);
+    color: oklch(0.86 0.10 165);
     border-color: color-mix(in oklab, var(--success) 35%, transparent);
   }
   .chip-warning {
     background: color-mix(in oklab, var(--warning) 12%, transparent);
-    color: oklch(0.88 0.14 60);
+    color: oklch(0.88 0.10 75);
     border-color: color-mix(in oklab, var(--warning) 35%, transparent);
   }
   .chip-info {
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
-    color: oklch(0.92 0.14 200);
+    color: oklch(0.90 0.06 220);
     border-color: color-mix(in oklab, var(--secondary) 35%, transparent);
   }
 
