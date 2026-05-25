@@ -86,9 +86,12 @@ function OperacaoDetail() {
   // está ativa (garantia validada), dispara a liquidação internacional.
   useEffect(() => {
     if (!currentSiscomex || !op) return;
-    const trigger = (op.release_trigger || "").toUpperCase();
-    if (!trigger) return;
-    const matched = currentSiscomex.key === trigger;
+    const current_status = currentSiscomex.key;                          // ENUM
+    const release_trigger = (op.release_trigger || "").toUpperCase();    // ENUM
+    const matched = !!release_trigger && current_status === release_trigger;
+    // Log temporário de auditoria do gatilho automático
+    // eslint-disable-next-line no-console
+    console.log("[settlement-trigger]", { current_status, release_trigger, matched });
     if (!matched) return;
     if (settlement || executeSettlement.isPending) return;
     if (!isActive(op.status)) return;
