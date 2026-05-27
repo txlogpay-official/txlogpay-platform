@@ -720,7 +720,7 @@ function SidePanel({
           />
         </div>
         <p className="mt-3 text-[10px] font-mono uppercase tracking-widest text-muted-foreground text-center">
-          Garantia integral protegida via escrow operacional
+          Garantia integral protegida pela TXLOGPAY
         </p>
       </div>
 
