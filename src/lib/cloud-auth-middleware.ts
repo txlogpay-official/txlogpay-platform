@@ -5,9 +5,7 @@ import type { Database } from "@/integrations/supabase/types";
 
 function getSupabaseRuntimeConfig() {
   const url = process.env.SUPABASE_URL ?? import.meta.env.VITE_SUPABASE_URL;
-  const publishableKey =
-    process.env.SUPABASE_PUBLISHABLE_KEY ??
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
   if (!url || !publishableKey) {
     const missing = [
@@ -20,8 +18,7 @@ function getSupabaseRuntimeConfig() {
   return { url, publishableKey };
 }
 
-export const requireCloudAuth = createMiddleware({ type: "function" }).server(
-  async ({ next }) => {
+export const requireCloudAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
     const request = getRequest();
     const authHeader = request?.headers?.get("authorization");
 
@@ -54,5 +51,4 @@ export const requireCloudAuth = createMiddleware({ type: "function" }).server(
         claims: data.claims,
       },
     });
-  },
-);
+});
