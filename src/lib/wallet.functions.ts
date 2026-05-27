@@ -45,6 +45,15 @@ export const createOperationWallet = createServerFn({ method: "POST" })
     const currency = operation.currency ?? "USD";
     const operationValue = Number(operation.operation_value ?? 0);
 
+    // Import dinâmico — server-only, fora do bundle client.
+    const {
+      createFundedWallet,
+      establishTrustline,
+      getAsset,
+      sendAsset,
+      toStellarAmount,
+    } = await import("@/services/stellar-assets.server");
+
     // 1. Asset operacional (cria issuer se preciso)
     const { asset, issuerSecret, code } = await getAsset(currency);
     console.log("ASSET READY", code);
