@@ -177,9 +177,20 @@ function OperacaoDetail() {
         await operationsDb.update(id, { status: "SETTLEMENT_IN_PROGRESS" as never });
         qc.invalidateQueries({ queryKey: ["operations", "detail", id] });
 
-        // 2. Executa settlement on-chain (wallet operacional já foi criada na validação da garantia)
-        console.log("CALLING executeSettlement");
+        // 2. Garante wallet operacional (fallback caso a validação anterior tenha falhado).
+        if (!op.operation_wallet) {
+          try {
+            const { createOperationWallet } = await import("@/lib/wallet.functions");
+            const res = await createOperationWallet({ data: { operationId: id } });
+            console.log("operation_wallet (fallback) criada:", res?.publicKey);
+            qc.invalidateQueries({ queryKey: ["operations", "detail", id] });
+          } catch (we) {
+            console.warn("Fallback operation_wallet falhou (continuando):", we);
+          }
+        }
 
+        // 3. Executa settlement on-chain
+        console.log("CALLING executeSettlement");
         await executeSettlement.mutateAsync({ operationId: id, currency: op.currency });
       } catch (e) {
         console.error("SETTLEMENT FLOW ERROR", e);
