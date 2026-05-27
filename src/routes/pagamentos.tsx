@@ -112,7 +112,7 @@ function Pagamentos() {
             <Kpi icon={Clock}        label="Aguardando depósito" value={String(f.pending.length)} hint={`${f.pending.length} aguardando pagamento`} tone="chip-warning" />
             <Kpi icon={Shield}       label="Garantia ativa"      value={formatCurrency(f.protectedActive.amount, f.protectedActive.currency)} hint={`${f.active.length} operações monitoradas`} tone="chip-info" highlight tooltip={f.protectedActive.isConverted ? fxTooltip : undefined} />
             <Kpi icon={CheckCircle2} label="Pagamentos liberados" value={formatCurrency(f.released.amount, f.released.currency)} hint={`${f.completed.length} concluídas`} tone="chip-success" tooltip={f.released.isConverted ? fxTooltip : undefined} />
-            <Kpi icon={TrendingUp}   label="Economia gerada"      value={formatCurrency(f.savings.amount, f.savings.currency)} hint="vs. carta de crédito tradicional" tone="chip-cargo" tooltip={f.savings.isConverted ? fxTooltip : undefined} />
+            <Kpi icon={TrendingUp}   label="Economia gerada"      value={formatCurrency(f.savings.amount, f.savings.currency)} hint="vs. cartão internacional (~4.5%)" tone="chip-cargo" tooltip={f.savings.isConverted ? fxTooltip : undefined} />
           </div>
 
           <div className="grid xl:grid-cols-3 gap-5 mt-6">
