@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { executeStellarSettlement, getOperationalAsset } from "@/services/stellar.service";
+import { executeSettlement as executeSettlementFn } from "@/lib/settlement.functions";
 
 export type Settlement = {
   id: string;
@@ -20,15 +20,6 @@ export type Settlement = {
   created_at: string;
 };
 
-function generateConfirmationCode(): string {
-  // TXL-XXXXXX-XXX  (numérico + letras maiúsculas)
-  const num = Math.floor(100000 + Math.random() * 900000);
-  const letters = Array.from({ length: 3 }, () =>
-    String.fromCharCode(65 + Math.floor(Math.random() * 26)),
-  ).join("");
-  return `TXL-${num}-${letters}`;
-}
-
 export const settlementsDb = {
   async getByOperation(operationId: string): Promise<Settlement | null> {
     const { data, error } = await supabase
@@ -43,48 +34,12 @@ export const settlementsDb = {
   },
 
   /**
-   * Executa a liquidação internacional on-chain (Stellar Testnet) e persiste
-   * o registro. A blockchain é detalhe de implementação — a UX apresenta
-   * apenas como "Liquidação Internacional".
-   *
-   * O `currency` é a moeda fiduciária original (USD, EUR, BRL, GBP, CNY).
-   * Internamente é mapeada para o asset operacional (USDTX, EURTX, …).
+   * Dispara a liquidação tokenizada (server fn). Toda lógica Stellar
+   * — trustlines, transferência do asset operacional, persistência —
+   * acontece no servidor.
    */
-  async createForOperation(
-    operationId: string,
-    userId: string,
-    currency: string,
-  ): Promise<Settlement> {
-    const assetCode = getOperationalAsset(currency);
-    const result = await executeStellarSettlement({ amount: "10" });
-
-    const row = {
-      operation_id: operationId,
-      user_id: userId,
-      tx_hash: result.hash,
-      ledger: result.ledger ?? null,
-      amount: 10,
-      asset: "XLM",
-      asset_code: assetCode,
-      operation_currency: currency?.toUpperCase() ?? null,
-      source_wallet: result.sourceWallet,
-      destination_wallet: result.destinationWallet,
-      confirmation_code: generateConfirmationCode(),
-      network: "stellar-testnet",
-      status: result.successful ? "CONFIRMED" : "FAILED",
-      successful: !!result.successful,
-    };
-
-    const { data, error } = await supabase
-      .from("settlements" as never)
-      .insert(row as never)
-      .select("*")
-      .single();
-    if (error) {
-      // eslint-disable-next-line no-console
-      console.error("settlements.insert error:", error, "row:", row);
-      throw error;
-    }
-    return data as unknown as Settlement;
+  async createForOperation(operationId: string): Promise<Settlement> {
+    const result = await executeSettlementFn({ data: { operationId } });
+    return result as unknown as Settlement;
   },
 };

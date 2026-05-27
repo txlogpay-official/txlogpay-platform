@@ -88,11 +88,9 @@ export function useValidatePayment() {
  */
 export function useExecuteSettlement() {
   const qc = useQueryClient();
-  const { user } = useAuth();
   return useMutation({
-    mutationFn: async (args: { operationId: string; currency: string }) => {
-      if (!user?.id) throw new Error("Usuário não autenticado");
-      return settlementsDb.createForOperation(args.operationId, user.id, args.currency);
+    mutationFn: async (args: { operationId: string; currency?: string }) => {
+      return settlementsDb.createForOperation(args.operationId);
     },
     onSuccess: (settlement) => {
       qc.invalidateQueries({ queryKey: ["operations"] });

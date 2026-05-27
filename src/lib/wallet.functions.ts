@@ -1,16 +1,26 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import * as StellarSdk from "@stellar/stellar-sdk";
-
-const server = new StellarSdk.Horizon.Server(
-  "https://horizon-testnet.stellar.org"
-);
+import {
+  createFundedWallet,
+  establishTrustline,
+  getAsset,
+  sendAsset,
+  toStellarAmount,
+} from "@/services/stellar-assets.server";
 
 /**
- * DEBUG — Teste isolado da engine Stellar Testnet.
- * Gera um Keypair, fundeia via Friendbot e persiste APENAS a public key
- * em operations.operation_wallet. A secret key NUNCA sai do servidor.
+ * Cria a wallet operacional (custodial) na Stellar Testnet, estabelece
+ * trustline para o asset tokenizado da moeda (USDTX/BRLTX/…), e EMITE
+ * tokens equivalentes ao `operation_value` para essa wallet.
+ *
+ * Persiste em `operations`:
+ *  - operation_wallet         (public key)
+ *  - operation_wallet_secret  (secret — testnet)
+ *  - asset_code               (USDTX, BRLTX, …)
+ *
+ * A secret NUNCA sai do servidor — fica apenas no banco para que o
+ * settlement futuro possa assinar transações de saída.
  */
 export const createOperationWallet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -18,55 +28,61 @@ export const createOperationWallet = createServerFn({ method: "POST" })
     z.object({ operationId: z.string().uuid() }).parse(input),
   )
   .handler(async ({ data, context }) => {
-  const { supabase, userId } = context;
+    const { supabase, userId } = context;
 
-  console.log("START WALLET CREATION");
+    console.log("START WALLET CREATION", data.operationId);
 
-  const pair = StellarSdk.Keypair.random();
-  const publicKey = pair.publicKey();
+    const { data: operation, error: opErr } = await supabase
+      .from("operations")
+      .select("*")
+      .eq("id", data.operationId)
+      .single();
 
-  console.log("KEYPAIR CREATED", publicKey);
+    if (opErr || !operation) throw new Error("Operation not found");
 
-  // FRIEND BOT TEMPORARIAMENTE DESABILITADO
+    // Se já existe, retorna idempotente.
+    if (operation.operation_wallet && operation.operation_wallet_secret) {
+      console.log("WALLET ALREADY EXISTS", operation.operation_wallet);
+      return { publicKey: operation.operation_wallet, alreadyExists: true };
+    }
 
-  const fb = await fetch(
-    `https://friendbot.stellar.org?addr=${encodeURIComponent(publicKey)}`,
-  );
+    const currency = operation.currency ?? "USD";
+    const operationValue = Number(operation.operation_value ?? 0);
 
-  if (!fb.ok) {
-    throw new Error(`Friendbot falhou (${fb.status})`);
-  }
+    // 1. Asset operacional (cria issuer se preciso)
+    const { asset, issuerSecret, code } = await getAsset(currency);
+    console.log("ASSET READY", code);
 
+    // 2. Wallet operacional financiada via friendbot
+    const walletKp = await createFundedWallet();
+    console.log("OPERATION WALLET FUNDED", walletKp.publicKey());
 
-  const { data: operation } = await supabase
-  .from("operations")
-  .select("*")
-  .eq("id", data.operationId)
-  .single();
+    // 3. Trustline da wallet → asset
+    await establishTrustline(walletKp.secret(), asset);
+    console.log("TRUSTLINE ESTABLISHED");
 
-  if (!operation) {
-    throw new Error("Operation not found");
-  }
+    // 4. Issuer minta os tokens para a wallet
+    const amount = toStellarAmount(operationValue || 1);
+    const mintTx = await sendAsset(issuerSecret, walletKp.publicKey(), asset, amount);
+    console.log("TOKENS MINTED", amount, code, mintTx.hash);
 
-  const assetCode = `${operation.currency}TX`;
-  console.log("ASSET CODE", assetCode);
+    // 5. Persiste TUDO (publicKey, secret, asset_code) atomicamente
+    const { error } = await supabase
+      .from("operations")
+      .update({
+        operation_wallet: walletKp.publicKey(),
+        operation_wallet_secret: walletKp.secret(),
+        asset_code: code,
+      } as never)
+      .eq("id", data.operationId)
+      .eq("user_id", userId);
 
-  
+    if (error) {
+      console.error("SUPABASE PERSIST ERROR", error);
+      throw new Error(error.message);
+    }
 
-  console.log("SAVING SUPABASE");
+    console.log("OPERATION WALLET SAVED", walletKp.publicKey());
 
-  const { error } = await supabase
-    .from("operations")
-    .update({ operation_wallet: publicKey })
-    .eq("id", data.operationId)
-    .eq("user_id", userId);
-
-  if (error) {
-    console.error("SUPABASE ERROR", error);
-    throw new Error(error.message);
-  }
-
-  console.log("WALLET SAVED");
-
-  return { publicKey };
-})
+    return { publicKey: walletKp.publicKey(), assetCode: code, mintHash: mintTx.hash };
+  });

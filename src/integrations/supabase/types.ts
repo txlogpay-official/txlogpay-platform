@@ -17,6 +17,7 @@ export type Database = {
       operations: {
         Row: {
           activated_at: string | null
+          asset_code: string | null
           bank_name: string | null
           beneficiary_city: string | null
           beneficiary_country: string | null
@@ -39,12 +40,17 @@ export type Database = {
           operation_currency: string | null
           operation_value: number
           operation_wallet: string | null
+          operation_wallet_secret: string | null
           payment_proof_url: string | null
           payment_receipt_name: string | null
           payment_receipt_url: string | null
           payment_submitted_at: string | null
           protected_amount: number
           release_trigger: string | null
+          settlement_completed_at: string | null
+          settlement_status: string | null
+          settlement_wallet: string | null
+          settlement_wallet_secret: string | null
           siscomex_reference: string | null
           status: Database["public"]["Enums"]["operation_status"]
           swift: string | null
@@ -57,6 +63,7 @@ export type Database = {
         }
         Insert: {
           activated_at?: string | null
+          asset_code?: string | null
           bank_name?: string | null
           beneficiary_city?: string | null
           beneficiary_country?: string | null
@@ -79,12 +86,17 @@ export type Database = {
           operation_currency?: string | null
           operation_value?: number
           operation_wallet?: string | null
+          operation_wallet_secret?: string | null
           payment_proof_url?: string | null
           payment_receipt_name?: string | null
           payment_receipt_url?: string | null
           payment_submitted_at?: string | null
           protected_amount?: number
           release_trigger?: string | null
+          settlement_completed_at?: string | null
+          settlement_status?: string | null
+          settlement_wallet?: string | null
+          settlement_wallet_secret?: string | null
           siscomex_reference?: string | null
           status?: Database["public"]["Enums"]["operation_status"]
           swift?: string | null
@@ -97,6 +109,7 @@ export type Database = {
         }
         Update: {
           activated_at?: string | null
+          asset_code?: string | null
           bank_name?: string | null
           beneficiary_city?: string | null
           beneficiary_country?: string | null
@@ -119,12 +132,17 @@ export type Database = {
           operation_currency?: string | null
           operation_value?: number
           operation_wallet?: string | null
+          operation_wallet_secret?: string | null
           payment_proof_url?: string | null
           payment_receipt_name?: string | null
           payment_receipt_url?: string | null
           payment_submitted_at?: string | null
           protected_amount?: number
           release_trigger?: string | null
+          settlement_completed_at?: string | null
+          settlement_status?: string | null
+          settlement_wallet?: string | null
+          settlement_wallet_secret?: string | null
           siscomex_reference?: string | null
           status?: Database["public"]["Enums"]["operation_status"]
           swift?: string | null
@@ -134,6 +152,30 @@ export type Database = {
           usd_conversion_rate?: number | null
           usd_normalized_value?: number | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      platform_assets: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          issuer_public: string
+          issuer_secret: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          issuer_public: string
+          issuer_secret: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          issuer_public?: string
+          issuer_secret?: string
         }
         Relationships: []
       }
