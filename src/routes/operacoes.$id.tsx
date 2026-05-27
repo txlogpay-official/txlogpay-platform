@@ -305,19 +305,6 @@ function OperacaoDetail() {
             </h3>
             <div className="flex items-center gap-2">
               <button
-                onClick={handleTestStellarWallet}
-                disabled={walletDebugLoading}
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-mono uppercase tracking-widest border border-muted-foreground/30 text-muted-foreground hover:bg-muted/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                title="DEBUG — gera wallet Stellar testnet e persiste em operations.operation_wallet"
-              >
-                {walletDebugLoading ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Wallet className="h-3.5 w-3.5" />
-                )}
-                Testar wallet Stellar
-              </button>
-              <button
                 onClick={advanceSiscomex}
                 disabled={advancing || siscomexIdx >= SISCOMEX_SEQUENCE.length - 1}
                 className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-mono uppercase tracking-widest border border-secondary/40 text-secondary hover:bg-secondary/10 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
