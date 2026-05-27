@@ -61,8 +61,7 @@ export const settlementsDb = {
     const row = {
       operation_id: operationId,
       user_id: userId,
-      stellar_tx_hash: result.hash,
-      transaction_hash: result.hash,
+      tx_hash: result.hash,
       ledger: result.ledger ?? null,
       amount: 10,
       asset: "XLM",
@@ -81,7 +80,11 @@ export const settlementsDb = {
       .insert(row as never)
       .select("*")
       .single();
-    if (error) throw error;
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error("settlements.insert error:", error, "row:", row);
+      throw error;
+    }
     return data as unknown as Settlement;
   },
 };
