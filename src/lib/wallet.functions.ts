@@ -45,10 +45,11 @@ export const createOperationWallet = createServerFn({ method: "POST" })
   .single();
 
   if (!operation) {
-    const assetCode = `${operation.currency}TX`;
-    console.log("ASSET CODE", assetCode);
     throw new Error("Operation not found");
   }
+
+  const assetCode = `${operation.currency}TX`;
+  console.log("ASSET CODE", assetCode);
 
   
 
