@@ -78,7 +78,7 @@ function Dashboard() {
 
   const k = computeKpis(ops, fx?.rates ?? { USD: 1 }, fx?.fxTimestamp ?? null);
   const series = monthlySeries(k.counted, fx?.rates ?? { USD: 1 }, k.volumeTotal.isConverted);
-  const isNewUser = ops.length === 0;
+  // const isNewUser = ops.length === 0;
   const fxTooltip = "Valores convertidos para USD com referência cambial em tempo real.";
 
   return (
