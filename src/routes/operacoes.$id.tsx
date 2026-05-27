@@ -522,7 +522,7 @@ function FxReferenceCard({ op }: { op: DBOperation }) {
         </div>
       )}
       <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground ml-auto">
-        Cotação em {new Date(refDate).toLocaleString("pt-BR")}
+        Cotação em {new Intl.DateTimeFormat(undefined, { dateStyle: "short", timeStyle: "short", timeZoneName: "short" }).format(new Date(refDate))}
       </div>
     </motion.div>
   );
