@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
-import { executeStellarSettlement, getOperationalAsset } from "@/services/stellar.service";
+import { executeStellarSettlement } from "@/services/stellar.service";
+import { getOperationalAsset } from "@/services/stellar-assets.service";
 
 export type Settlement = {
   id: string;

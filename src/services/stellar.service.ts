@@ -28,11 +28,6 @@ export const OPERATIONAL_ASSET_MAP: Record<string, string> = {
   CNY: "CNYTX",
 };
 
-export function getOperationalAsset(currency: string): Asset {
-  const issuerPublic = import.meta.env.VITE_STELLAR_ISSUER_PUBLIC;
-  const code = `${currency.toUpperCase()}TX`;
-  return new Asset(code, issuerPublic);
-}
 
 async function fundWithFriendbot(publicKey: string) {
   await fetch(

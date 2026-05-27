@@ -25,7 +25,7 @@ export async function getUsdRate(currency: string): Promise<FxQuote> {
   try {
     // frankfurter.app — base currency → USD
     const res = await fetch(
-      `https://api.frankfurter.app/latest?from=${cur}&to=USD`,
+      `https://api.frankfurter.dev/latest?from=${cur}&to=USD`,
       {
         mode: "cors",
       }
