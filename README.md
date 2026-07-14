@@ -16,7 +16,7 @@ A plataforma monitora eventos operacionais ligados ao Siscomex e, após confirma
 
 ## Problema
 
-Operações internacionais dependem de processos financeiros complexos, caros e lentos.
+Operações internacionais dependem de processos financeiros complexos, caros e lentos..
 
 Os principais desafios atuais incluem:
 
