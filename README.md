@@ -64,7 +64,7 @@ Evento Confirmado
 Pagamento Liberado
 ```
 
-----
+---
 
 ## Principais Funcionalidades
 
