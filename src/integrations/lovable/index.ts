@@ -16,7 +16,7 @@ export const lovable = {
         options: {
           redirectTo:
             opts?.redirect_uri ||
-            "https://beta.txlogpay.com/dashboard",
+            `${window.location.origin}/dashboard`,
         },
       });
     },
