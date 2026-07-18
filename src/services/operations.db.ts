@@ -8,14 +8,57 @@ import { ACTIVE_STATUSES } from "@/domain/operation-status";
 import { getUsdRate } from "@/services/fx.service";
 import { getProtectedAmount } from "@/lib/financial-calculations";
 
-export type DBOperation = Database["public"]["Tables"]["operations"]["Row"] & {
-  operation_currency?: string | null;
-  operation_value?: number | null;
-  total_fees?: number | null;
-  usd_conversion_rate?: number | null;
-  usd_normalized_value?: number | null;
-  fx_reference_date?: string | null;
-};
+type OperationRow = Database["public"]["Tables"]["operations"]["Row"];
+
+export type DBOperation = Omit<
+  OperationRow,
+  "operation_wallet_secret" | "settlement_wallet_secret"
+>;
+const PUBLIC_OPERATION_COLUMNS = `
+  activated_at,
+  asset_code,
+  bank_name,
+  beneficiary_city,
+  beneficiary_country,
+  bl_awb,
+  created_at,
+  currency,
+  current_operational_status,
+  duimp,
+  exporter_name,
+  fee_amount,
+  fx_currency_used,
+  fx_rate_to_usd,
+  fx_reference_date,
+  iban,
+  id,
+  importer_name,
+  incoterm,
+  invoice_number,
+  operation_code,
+  operation_currency,
+  operation_value,
+  operation_wallet,
+  payment_proof_url,
+  payment_receipt_name,
+  payment_receipt_url,
+  payment_submitted_at,
+  protected_amount,
+  release_trigger,
+  settlement_completed_at,
+  settlement_status,
+  settlement_wallet,
+  siscomex_reference,
+  status,
+  swift,
+  total_amount,
+  total_fees,
+  updated_at,
+  usd_conversion_rate,
+  usd_normalized_value,
+  user_id
+` as const;
+
 export type DBOperationInsert = Database["public"]["Tables"]["operations"]["Insert"];
 export type DBOperationUpdate = Database["public"]["Tables"]["operations"]["Update"];
 export type DBOperationStatus = Database["public"]["Enums"]["operation_status"];
@@ -61,7 +104,7 @@ export const operationsDb = {
   async list(): Promise<DBOperation[]> {
     const { data, error } = await supabase
       .from("operations")
-      .select("*")
+      .select(PUBLIC_OPERATION_COLUMNS)
       .order("created_at", { ascending: false });
     if (error) throw error;
     return data ?? [];
@@ -70,7 +113,7 @@ export const operationsDb = {
   async listActive(): Promise<DBOperation[]> {
     const { data, error } = await supabase
       .from("operations")
-      .select("*")
+      .select(PUBLIC_OPERATION_COLUMNS)
       .in("status", ACTIVE_STATUSES)
       .order("created_at", { ascending: false });
     if (error) throw error;
@@ -80,7 +123,7 @@ export const operationsDb = {
   async get(id: string): Promise<DBOperation | null> {
     const { data, error } = await supabase
       .from("operations")
-      .select("*")
+      .select(PUBLIC_OPERATION_COLUMNS)
       .eq("id", id)
       .maybeSingle();
     if (error) throw error;
@@ -122,7 +165,7 @@ export const operationsDb = {
     const { data, error } = await supabase
       .from("operations")
       .insert(payload)
-      .select("*")
+      .select(PUBLIC_OPERATION_COLUMNS)
       .single();
     if (error) throw error;
     return data;
@@ -134,7 +177,7 @@ export const operationsDb = {
       .from("operations")
       .update(safe as DBOperationUpdate)
       .eq("id", id)
-      .select("*")
+      .select(PUBLIC_OPERATION_COLUMNS)
       .single();
     if (error) throw error;
     return data;
