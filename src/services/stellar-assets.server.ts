@@ -73,13 +73,21 @@ export async function ensureIssuer(currency: string): Promise<{
   issuerSecret: string;
 }> {
   const code = getAssetCode(currency);
-
   const supabaseAdmin = getRuntimeAdmin();
-  const { data: existing } = await supabaseAdmin
+
+  const { data: existing, error: readError } = await supabaseAdmin
     .from("platform_assets" as never)
-    .select("*")
+    .select(`
+      code,
+      issuer_public,
+      issuer_secret
+    `)
     .eq("code", code)
     .maybeSingle();
+
+  if (readError) {
+    throw readError;
+  }
 
   if (existing) {
     const row = existing as unknown as {
@@ -87,6 +95,7 @@ export async function ensureIssuer(currency: string): Promise<{
       issuer_public: string;
       issuer_secret: string;
     };
+
     return {
       code: row.code,
       issuerPublic: row.issuer_public,
@@ -95,35 +104,58 @@ export async function ensureIssuer(currency: string): Promise<{
   }
 
   console.log("CREATING NEW ISSUER", code);
+
   const issuer = StellarSdk.Keypair.random();
   await fundWithFriendbot(issuer.publicKey());
 
-  const { error } = await supabaseAdmin.from("platform_assets" as never).insert({
-    code,
-    issuer_public: issuer.publicKey(),
-    issuer_secret: issuer.secret(),
-  } as never);
+  const { error: insertError } = await supabaseAdmin
+    .from("platform_assets" as never)
+    .insert({
+      code,
+      issuer_public: issuer.publicKey(),
+      issuer_secret: issuer.secret(),
+    } as never);
 
-  if (error) {
-    // Race condition possível — re-tenta leitura.
-    const { data: again } = await supabaseAdmin
+  if (insertError) {
+    // Outra execução pode ter criado o mesmo issuer simultaneamente.
+    const { data: again, error: retryError } = await supabaseAdmin
       .from("platform_assets" as never)
-      .select("*")
+      .select(`
+        code,
+        issuer_public,
+        issuer_secret
+      `)
       .eq("code", code)
       .maybeSingle();
+
+    if (retryError) {
+      throw retryError;
+    }
+
     if (again) {
-      const r = again as unknown as {
+      const row = again as unknown as {
         code: string;
         issuer_public: string;
         issuer_secret: string;
       };
-      return { code: r.code, issuerPublic: r.issuer_public, issuerSecret: r.issuer_secret };
+
+      return {
+        code: row.code,
+        issuerPublic: row.issuer_public,
+        issuerSecret: row.issuer_secret,
+      };
     }
-    throw error;
+
+    throw insertError;
   }
 
   console.log("ISSUER CREATED", code, issuer.publicKey());
-  return { code, issuerPublic: issuer.publicKey(), issuerSecret: issuer.secret() };
+
+  return {
+    code,
+    issuerPublic: issuer.publicKey(),
+    issuerSecret: issuer.secret(),
+  };
 }
 
 export async function getAsset(currency: string): Promise<{
