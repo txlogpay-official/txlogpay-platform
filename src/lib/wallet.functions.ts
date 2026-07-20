@@ -30,8 +30,14 @@ export const createOperationWallet = createServerFn({ method: "POST" })
 
     const { data: operation, error: opErr } = await supabase
       .from("operations")
-      .select("*")
+      .select(`
+        operation_wallet,
+        operation_wallet_secret,
+        currency,
+        operation_value
+      `)
       .eq("id", data.operationId)
+      .eq("user_id", userId)
       .single();
 
     if (opErr || !operation) throw new Error("Operation not found");
